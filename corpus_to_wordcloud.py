@@ -6,21 +6,17 @@
 # Copyright 2016 Mathew Hunter
 
 import argparse
-import json
 import nltk
 import os
 import PIL
-import pprint
-import re
 import wordcloud
-import zipfile
 
 
 # Generates an image from a collection of words
 def generate_image_from_words(words):
 
     # Generate a word cloud image
-    image = wordcloud.WordCloud().generate(words)
+    image = wordcloud.WordCloud().generate(" ".join(words))
 
     return image
 
@@ -60,7 +56,7 @@ if __name__ == "__main__":
     words = __read_corpus_data(args.source_file)
 
     # Produce a wordcloud
-    image = generate_image_from_words(" ".join(words))
+    image = generate_image_from_words(words)
 
     # Output the file
     output_filename = os.path.dirname(os.path.realpath(__file__)) + "test.png"
