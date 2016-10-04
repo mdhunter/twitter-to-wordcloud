@@ -13,10 +13,11 @@ import wordcloud
 
 
 # Generates an image from a collection of words
-def generate_image_from_words(words):
+def generate_image_from_words(words, width=400, height=300):
 
     # Generate a word cloud image
-    image = wordcloud.WordCloud().generate(" ".join(words))
+    generator = wordcloud.WordCloud(width=width, height=height)
+    image = generator.generate(" ".join(words))
 
     return image
 
@@ -50,13 +51,15 @@ if __name__ == "__main__":
     # Create an argument parser and parse the args
     parser = argparse.ArgumentParser(description="Reads the incoming corpus from the specified files, building a wordcloud")
     parser.add_argument("source_file", nargs="+", help="the source file(s) to process")
+    parser.add_argument("--width", nargs="?", type=int, help="the width of the output image", default=400)
+    parser.add_argument("--height", nargs="?", type=int, help="the height of the output image", default=300)
     args = parser.parse_args()
 
     # Produce a corpus
     words = __read_corpus_data(args.source_file)
 
     # Produce a wordcloud
-    image = generate_image_from_words(words)
+    image = generate_image_from_words(words, args.width, args.height)
 
     # Output the file
     output_filename = os.path.dirname(os.path.realpath(__file__)) + "test.png"

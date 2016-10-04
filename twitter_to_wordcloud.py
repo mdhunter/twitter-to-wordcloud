@@ -19,6 +19,8 @@ if __name__ == "__main__":
     # Create an argument parser and parse the args
     parser = argparse.ArgumentParser(description="Reads the Twitter archive from the specified files, building a wordcloud")
     parser.add_argument("source_file", nargs="+", help="the source file(s) to process")
+    parser.add_argument("--width", nargs="?", type=int, help="the width of the output image", default=400)
+    parser.add_argument("--height", nargs="?", type=int, help="the height of the output image", default=300)
     args = parser.parse_args()
 
     # Produce a corpus
@@ -28,7 +30,7 @@ if __name__ == "__main__":
     filtered_corpus = filter_corpus.filter_corpus_words(corpus)
 
     # Generate a wordcloud image
-    image = corpus_to_wordcloud.generate_image_from_words(filtered_corpus)
+    image = corpus_to_wordcloud.generate_image_from_words(filtered_corpus, args.width, args.height)
 
     # Output the file
     output_filename = os.path.dirname(os.path.realpath(__file__)) + "test.png"
