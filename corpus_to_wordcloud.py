@@ -13,10 +13,17 @@ import wordcloud
 
 
 # Generates an image from a collection of words
-def generate_image_from_words(words, width=400, height=300):
+def generate_image_from_words(words, width=400, height=300, color=""):
+
+    # If a color was specified, use either of the color functions that WordCloud provides
+    color_func = lambda: color_func()
+    if color:
+        color_func = wordcloud.get_single_color_func(color)
+    else:
+        color_func = wordcloud.random_color_func
 
     # Generate a word cloud image
-    generator = wordcloud.WordCloud(width=width, height=height)
+    generator = wordcloud.WordCloud(width=width, height=height, color_func=color_func)
     cloud = generator.generate(" ".join(words))
 
     return cloud.to_image()
@@ -53,13 +60,14 @@ if __name__ == "__main__":
     parser.add_argument("source_file", nargs="+", help="the source file(s) to process")
     parser.add_argument("--width", nargs="?", type=int, help="the width of the output image", default=400)
     parser.add_argument("--height", nargs="?", type=int, help="the height of the output image", default=300)
+    parser.add_argument("--color", nargs="?", help="the color, as text or hexcode, to predominantly color the image; defaults to random colors")
     args = parser.parse_args()
 
     # Produce a corpus
     words = __read_corpus_data(args.source_file)
 
     # Produce a wordcloud
-    image = generate_image_from_words(words, args.width, args.height)
+    image = generate_image_from_words(words, args.width, args.height, args.color)
 
     # Output the file
     i = 0

@@ -21,6 +21,7 @@ if __name__ == "__main__":
     parser.add_argument("source_file", nargs="+", help="the source file(s) to process")
     parser.add_argument("--width", nargs="?", type=int, help="the width of the output image", default=400)
     parser.add_argument("--height", nargs="?", type=int, help="the height of the output image", default=300)
+    parser.add_argument("--color", nargs="?", help="the color, as text or hexcode, to predominantly color the image; defaults to random colors")
     args = parser.parse_args()
 
     # Produce a corpus
@@ -30,7 +31,7 @@ if __name__ == "__main__":
     filtered_corpus = filter_corpus.filter_corpus_words(corpus)
 
     # Generate a wordcloud image
-    image = corpus_to_wordcloud.generate_image_from_words(filtered_corpus, args.width, args.height)
+    image = corpus_to_wordcloud.generate_image_from_words(filtered_corpus, args.width, args.height, args.color)
 
     # Output the file
     i = 0
