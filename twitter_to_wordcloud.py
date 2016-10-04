@@ -33,9 +33,12 @@ if __name__ == "__main__":
     image = corpus_to_wordcloud.generate_image_from_words(filtered_corpus, args.width, args.height)
 
     # Output the file
-    output_filename = os.path.dirname(os.path.realpath(__file__)) + "test.png"
-    image.to_file(output_filename)
+    i = 0
+    output_filename = os.path.realpath("output-%s.png" % i)
+    while os.path.exists(output_filename):
+        i += 1
+        output_filename = os.path.realpath("output-%s.png" % i)
+    image.save(output_filename)
 
     # Show the image
-    image = PIL.Image.open(output_filename)
     image.show()

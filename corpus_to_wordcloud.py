@@ -17,9 +17,9 @@ def generate_image_from_words(words, width=400, height=300):
 
     # Generate a word cloud image
     generator = wordcloud.WordCloud(width=width, height=height)
-    image = generator.generate(" ".join(words))
+    cloud = generator.generate(" ".join(words))
 
-    return image
+    return cloud.to_image()
 
 
 # Reads the referenced files to produce a collection of words
@@ -62,9 +62,12 @@ if __name__ == "__main__":
     image = generate_image_from_words(words, args.width, args.height)
 
     # Output the file
-    output_filename = os.path.dirname(os.path.realpath(__file__)) + "test.png"
-    image.to_file(output_filename)
+    i = 0
+    output_filename = os.path.realpath("output-%s.png" % i)
+    while os.path.exists(output_filename):
+        i += 1
+        output_filename = os.path.realpath("output-%s.png" % i)
+    image.save(output_filename)
 
     # Show the image
-    image = PIL.Image.open(output_filename)
     image.show()
